@@ -1,0 +1,132 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <a class="navbar-brand" href="#">SIP CALCULATOR</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <button class="nav-link" (click)="switchForms('simple')">Simple Calculator</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" (click)="switchForms('complex')">Advanced Calculator</button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br>
+<br>
+<!-- <div class="container d-flex justify-content-center">
+  <h1>SIP CALCULATOR!</h1>
+  <p>CACLUALTE YOUR SIP POTENTIAL EARNINGS</p>
+</div> -->
+
+<!-- to calculate first need constant to add every month as investment value -->
+<!-- that adds onto current total earnings and is recalculated until end of investmend period-->
+<!-- also need to collect percent of each month -->
+<!-- also need to know how many months of investments will be done -->
+<!-- 
+<div class="container d-flex justify-content-center">
+  <button (click)="switchForms('simple')">Simple Calculator</button>
+  <button (click)="switchForms('complex')">Advanced Calculator</button>
+</div> -->
+
+
+<div *ngIf="formButton">
+  
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h1 class="text-center">Simple Calculator</h1>
+
+        <form (ngSubmit)="onSubmitSimple()" [formGroup]="sipSimpleForm" class="mb-3">
+
+          <div class="form-group">
+            <label for="investment">Investment Amount:</label>
+            <input type="number" formControlName="investment" id="investment" class="form-control" />
+          </div>
+
+          <div class="form-group">
+            <label for="months">Months:</label>
+            <input type="number" formControlName="months" id="months" class="form-control" />
+          </div>
+
+          <div class="form-group">
+            <label for="percentage">Percentage:</label>
+            <input type="number" formControlName="percentage" id="percentage" class="form-control" />
+          </div>
+          <br>
+          <br>
+
+          <button type="submit" [disabled]=!sipSimpleForm.valid class="btn btn-primary">CACLUALTE</button>
+        </form>
+
+        <h3>{{simpleReturns}}</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="!formButton">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+    <h1 class="text-center">Advanced Calculator</h1>
+
+    <form [formGroup]="sipComplexForm" (ngSubmit)="onSubmitComplex()" class="mb-3">
+
+      <div class="form-group">
+        <label for="investment">Investment Amount:</label>
+        <input type="number" formControlName="investment" id="investment" class="form-control" (input)="onInvestChange($event)"/>
+      </div>
+
+      <div class="form-group">
+        <label for="months">Months:</label>
+        <input type="number" formControlName="months" id="months" class="form-control" (input)="onMonthsChange($event)"/>
+      </div>
+
+      <div class="form-group">
+        <label for="customInvest">Additional Investments:</label>
+        <select formControlName="customInvest" class="form-select" (input)="onCustomChange($event)">
+          <option value="">Select an option</option>
+          <option value="custom">Custom Investments</option>
+          <option value="continous">Continous Additional Investments</option>
+          <option value="none">No Additional Investments</option>
+        </select>
+      </div>
+
+      <div formArrayName="percentages">
+        <div *ngFor="let percentage of percentages?.controls; let i = index" class="form-group">
+          <label for="percentage-{{ i }}">Month {{ i + 1 }} Percentage:</label>
+          <input type="number" formControlName="{{ i }}" required class="form-control">
+        </div>
+      </div>
+
+      <div formArrayName="additionalinvestments">
+        <div *ngFor="let invest of additionalinvestments?.controls; let i = index" class="form-group">
+          <label for="invest-{{ i }}">Month {{ i + 1 }} Investments:</label>
+          <input type="number" formControlName="{{ i }}" required class="form-control">
+        </div>
+      </div>
+
+      <!-- <div formArrayName="double">
+        <div *ngFor="let invest of double?.controls; let i = index" class="form-group" [formGroupName]="i">
+          <label>Initial Value:</label>
+          <input type="text" formControlName="initialValue">
+          <label>Test:</label>
+          <input type="text" formControlName="test">
+        </div>
+      </div> -->
+
+      <br>
+      <br>
+      <button type="submit" [disabled]=!sipComplexForm.valid class="btn btn-primary">CACLUALTE</button>
+    </form>
+    <h3>{{complexReturns}}</h3>
+  </div>
+</div>
+  </div>
+</div>

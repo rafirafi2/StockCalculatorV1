@@ -1,1 +1,44 @@
 /* You can add global styles to this file, and also import other style files */
+
+.header{
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+}
+
+.calculatorForm{
+    width: 500px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items: center;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.calculatorForm form{
+    display: table;
+}
+.calculatorForm div{
+    display: table-row;
+}
+
+.calculatorForm label{
+    display: table-cell;
+    width: 100px;
+    margin-right: 50px;
+}
+
+.calculatorForm input[type="number"] {
+    display: table-cell;
+    width: 80px; 
+
+  }
+
+.calculatorForm button{
+    margin-left: 70px;
+    padding: 5px;
+}

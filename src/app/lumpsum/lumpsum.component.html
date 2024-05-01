@@ -1,0 +1,54 @@
+<div class="header">
+    <div class="name"><h1>LUMPSUM CALCULATOR!</h1></div>
+    <div class="desc"><p>CACLUALTE YOUR LUMPSUM POTENTIAL EARNINGS</p></div>
+</div>
+<div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form [formGroup]="lumpsumForm" (ngSubmit)="onSubmit()" class="mb-3">
+  
+              <div class="form-group">
+                <div>
+                  <label for="investment">Investment Amount:</label>
+                  <input type="number" formControlName="investment" id="investment" class="form-control" />
+                </div>
+  
+                <div>
+                  <label for="months">Months:</label>
+                  <input type="number" formControlName="months" id="months" class="form-control" (input)="onMonthsChange($event)"/>
+                </div>
+              </div>
+  
+              <div formArrayName="percentages">
+                <h4 *ngIf="displayHeader" class="text-center">PERCENTAGE</h4>
+                <div *ngFor="let percentage of percentages?.controls; let i = index" class="form-group">
+                  <label for="percentage-{{ i }}">Month {{ i + 1 }} Percentage:</label>
+                  <input type="number" formControlName="{{ i }}" required class="form-control">
+                </div>
+              </div>
+  
+              <div formArrayName="additional">
+                <h4 *ngIf="displayHeader" class="text-center">ADDITIONAL INVESTMENTS</h4>
+                <div *ngFor="let addition of additional?.controls; let i = index" class="form-group">
+                  <label for="addition-{{ i }}">Month {{ i + 1 }} Additional Investment:</label>
+                  <input type="number" formControlName="{{ i }}" required class="form-control">
+                </div>
+              </div>
+              <br>
+              <br>
+  
+              <button type="submit" [disabled]=!lumpsumForm.valid class="btn btn-primary">CACLUALTE</button>
+            </form>
+  
+            <h3>{{total}}</h3>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="displayChart">
+    <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}"></canvasjs-chart>    
+  </div>  

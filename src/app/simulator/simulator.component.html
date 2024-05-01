@@ -1,0 +1,104 @@
+<div class="container">
+<div class="row justify-content-center">
+    <h1>Simulator</h1>
+</div>
+</div>
+
+<div class="container mt-5">
+
+  <form [formGroup]="simulatorForm" (ngSubmit)="calculate()">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h3> Investment Start </h3>
+        <div>
+          <label for="startDate">Start Date:</label>
+          <select formControlName="startDate" id="startDate" class="form-select" (change)="startSelection()">
+            <option *ngFor="let data of allStockData" [value]="data.time">{{ data.time }}</option>
+          </select>
+        </div>
+
+        <br>
+        <p *ngIf="showStockPrice">Selected Stock Price: <strong>${{ startStockPrice | number:'1.2-2' }}</strong></p>
+
+        <div>
+          <label for="amountOfStock">Amount of Stock:</label>
+          <input type="number" formControlName="amountOfStock" id="amountOfStock" class="form-control" (change)="amountChange()">
+        </div>
+
+        <br>
+        <p *ngIf="showTotal">Total Invested: <strong>${{ amountOfStock * startStockPrice | number:'1.2-2' }}</strong></p>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h3> Investment End </h3>
+        <div>
+          <label for="endDate">End Date:</label>
+          <select formControlName="endDate" id="endDate" class="form-select" (change)="endSelection()">
+            <option *ngFor="let data of allStockData" [value]="data.time">{{ data.time }}</option>
+          </select>
+        </div>
+        <br>
+        <p *ngIf="showEnd">Selected Stock Price: <strong>${{ currStockPrice | number:'1.2-2' }}</strong></p>
+      </div>
+    </div>
+
+    <br>
+    <br>
+    <div class="row justify-content-center">
+    <div class="col-md-6">
+      <button type="submit" [disabled]="!simulatorForm.valid" class="btn btn-primary">CALCULATE</button>
+      <br>
+      <h4 *ngIf="invalid">Invalid Date Selection!</h4>
+      <h4 *ngIf="finish">Total Return: <strong>${{ returnValue | number:'1.2-2' }}</strong></h4>
+      <h4 *ngIf="profit">You made a profit of:  <strong>${{ difference | number:'1.2-2' }}</strong> (+{{percentDiff | number:'1.2-4'}}%)</h4>
+      <h4 *ngIf="loss">You had a loss of: <strong>${{ difference | number:'1.2-2' }}</strong> ({{percentDiff | number:'1.2-4'}}%)</h4>
+    </div>
+  </div>
+  <br><br>
+    
+  </form>
+
+</div>
+
+
+
+
+
+<div class="container" *ngIf="dataReady">
+
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Open Price</th>
+          <th>High Price</th>
+          <th>Low Price</th>
+          <th>Close Price</th>
+          <th>Volume</th>
+          <th>Price Difference on Day</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let x of allStockData">
+          <td>{{x.time}}</td>
+          <td>{{x.open}}</td>
+          <td>{{x.high}}</td>
+          <td>{{x.low}}</td>
+          <td>{{x.close}}</td>
+          <td>{{x.volume}}</td>
+          <td>$ {{x.change | number:'1.2-2'}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <div>
+      <canvasjs-chart [options]="chartOptions" [styles]="{width: '100%', height:'360px'}"></canvasjs-chart>    
+    </div>  
+
+  
+  </div>
